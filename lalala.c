@@ -23,19 +23,17 @@ int CondicaoITU(float ITU)
 
 int main()
 {
-    int Day;
-    int i = 0;
+    int Day, i = 0;
+
     struct Dia
     {
-        int Dias;
-        float Temperatura;
-        float UmidadeRelativa;
-        float ITU;
-        int M;
+        int Dias, M;
+        float Temperatura, UmidadeRelativa, ITU;
     } Dia[365];
-    FILE *TempUmid;
 
     printf("Seja bem vindo ao programa de verificação de estresse climático!\n\n");
+
+    FILE *TempUmid;
     TempUmid = fopen("TempUmid.txt", "r");
     fscanf(TempUmid, "%*s %*s %*s");
 
@@ -50,23 +48,22 @@ int main()
     {
         do
         {
-            printf("Digite o dia que deseja-se buscar(Entre 1 e 365)\nCaso queira finalizar o programa, digite 0:\n");
+            printf("Digite o dia que deseja buscar (Entre 1 e 365)\nCaso queira finalizar o programa, digite 0:\n");
             scanf("%d", &Day);
         } while ((Day < 0) || (Day > 365));
         if (Day != 0)
         {
-            printf("Temperatura\tUmidade Relativa\tITU\n");
+            printf("\nInformações para o dia %d:\nTemperatura\tUmidade Relativa\tITU\n", Day);
             printf(" %.2f\t\t %.2f\t\t\t %.2f\t ", Dia[Day - 1].Temperatura, Dia[Day - 1].UmidadeRelativa, Dia[Day - 1].ITU);
             if (Dia[Day - 1].M == 0)
             {
-                printf("Condições Normais\n");
+                printf("Condições Normais\n\n");
             }
             else
             {
-                printf("Estresse Climático\n");
+                printf("Estresse Climático\n\n");
             }
         }
     } while (Day != 0);
-
     return 0;
 }
