@@ -3,23 +3,25 @@
 #include <string.h>
 #include <locale.h>
 
-// estrutura de armazenamento de dados
+// Estrutura de armazenamento de dados
 struct dados_rebanho
-    {
-        int mes;
-        float Ta, UR, ITU;// variaveis para calculo
-        char M; // tem que ser do tipo char, pois retornará uma mensagem
-    }Tabrebanho[12];
+{
+    int mes;
+    float Ta, UR, ITU;
+    char M;
+} Tabrebanho[12];
 
-// recebe Ta e UR retorna calculado-Função
-float itu (float Ta, float UR)
+// Função para cálculo de ITU
+float CalculaITU(float Ta, float UR)
 {
     float calculo;
-    calculo = 0.8*Ta + UR*((Ta - 14.3)/100) + 46.3;
-    return (calculo);// retorna para main
-}//Fim da função
+    calculo = 0.8 * Ta + UR * ((Ta - 14.3) / 100) + 46.3;
+    return (calculo);
+}
 
-int status(float ITU){ // função que retorna a mensagem das condições animais
+// Função das condições de ITU
+int status(float ITU)
+{
     if (ITU >= 75)
     {
         return 1;
@@ -29,63 +31,65 @@ int status(float ITU){ // função que retorna a mensagem das condições animai
         return 0;
     }
 }
-int busca(int mes){
+
+// Função do buscador
+int busca(int mes)
+{
     int posicao = -1, i;
 
-    for (i=0;i<12;i++){
-        if(Tabrebanho[i].mes == mes){
-            posicao=i;
+    for (i = 0; i < 12; i++)
+    {
+        if (Tabrebanho[i].mes == mes)
+        {
+            posicao = i;
         }
     }
     return posicao;
 }
-//Função principal
+
 int main()
 {
-    setlocale(LC_ALL,"Portuguese");
-    int i=0;// contador
-    int a,b;
-//Fim da struct
+    int i = 0, a, b, posicao;
 
-    while (i <12) // inicio do programa
+    while (i < 12)
     {
         printf(" *** Entrada de dados *** \n ");
 
-        printf("Qual o m�s?: ");
+        printf("Qual o %dº mês? (Valores entre 1 e 12): ", i + 1);
         scanf("%d", &a);
-        Tabrebanho[i].mes=a;
+        Tabrebanho[i].mes = a;
 
-        printf("Informe Temperatura (Ta): " );
+        printf("Informe a Temperatura para o mês %d: ", Tabrebanho[i].mes);
         scanf("%f", &Tabrebanho[i].Ta);
 
-        printf("Informe Umidade (UR):  ");
+        printf("Informe a Umidade para o mês %d: ", Tabrebanho[i].mes);
         scanf("%f", &Tabrebanho[i].UR);
 
-        Tabrebanho[i].ITU = itu (Tabrebanho[i].Ta, Tabrebanho[i].UR);//invocando a fun��o
-
+        Tabrebanho[i].ITU = CalculaITU(Tabrebanho[i].Ta, Tabrebanho[i].UR);
         Tabrebanho[i].M = status(Tabrebanho[i].ITU);
-
         i++;
         system("cls");
     }
-    printf(" *** Consulta M�s *** \n");
-
-    printf("Digite o m�s a ser consultado (valor entre 1 e 12): ");
-
-    int posicao;
+    printf(" *** Consulta Mês *** \n");
+    printf("Digite o mês a ser consultado (valor entre 1 e 12): ");
+    scanf("%d", &b);
     do
     {
-        scanf("%d", &b);
-        if(b>0)
+        if (b > 0)
         {
             posicao = busca(b);
-            if (posicao==-1){
-                printf("M�s n�o encontrado!\n");
-            }else{
-                printf("Ta: %.2f   UR: %.2f   ITU: %.2f   M: %s\n", Tabrebanho[posicao].Ta, Tabrebanho[posicao].UR, Tabrebanho[posicao].ITU, Tabrebanho[posicao].M == 0 ? "CONDI��ES NORMAIS" : "ESTRESSE CLIM�TICO");
+            if (posicao == -1)
+            {
+                printf("\nMês não encontrado!\n\n");
+            }
+            else
+            {
+                printf("\nInformações para o mês %d:\nTemperatura\tUmidade Relativa\tITU\n", b);
+                printf("%.2f\t\t%.2f\t\t\t%.2f\t\t%s\n\n", Tabrebanho[posicao].Ta, Tabrebanho[posicao].UR, Tabrebanho[posicao].ITU, Tabrebanho[posicao].M == 0 ? "Condições Normais" : "Estresse Climático");
             }
         }
-        printf("Digite outro m�s ou 0 para sair: ");
-    }while(b!=0); // façaa enquanto o mes digitado for diferente de zero
-  return 0;
-}//Fim da função principal
+        printf("Digite outro mês ou 0 para sair: ");
+        scanf("%d", &b);
+    } while (b != 0);
+    return 0;
+}

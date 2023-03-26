@@ -54,15 +54,7 @@ int main()
         if (Day != 0)
         {
             printf("\nInformações para o dia %d:\nTemperatura\tUmidade Relativa\tITU\n", Day);
-            printf(" %.2f\t\t %.2f\t\t\t %.2f\t ", Dia[Day - 1].Temperatura, Dia[Day - 1].UmidadeRelativa, Dia[Day - 1].ITU);
-            if (Dia[Day - 1].M == 0)
-            {
-                printf("Condições Normais\n\n");
-            }
-            else
-            {
-                printf("Estresse Climático\n\n");
-            }
+            printf("%.2f\t\t%.2f\t\t\t%.2f\t\t%s\n\n", Dia[Day - 1].Temperatura, Dia[Day - 1].UmidadeRelativa, Dia[Day - 1].ITU, Dia[Day - 1].M == 0 ? "Condições Normais" : "Estresse Climático");
         }
     } while (Day != 0);
     return 0;
